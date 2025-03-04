@@ -1,16 +1,21 @@
-const { Sequelize } = require('sequelize')
+const { Sequelize } = require('sequelize');
 
-// database
+// Database Connection
 const sequelize = new Sequelize(
-  'postgres://fakeurl', // TODO
+  process.env.DATABASE_URL, // Connection string from environment variable
   {
+    dialect: 'postgres',
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false,
+        rejectUnauthorized: false, // Necessary for many cloud-hosted databases
       },
     },
-  },
+    define: {
+      createdAt: 'added', // Custom field names
+      updatedAt: 'updated',
+    },
+  }
 );
 
 // authentication and synchronization
